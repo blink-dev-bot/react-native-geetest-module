@@ -13,14 +13,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: yarn
-          cache-dependency-path: example/yarn.lock
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
           working-directory: example
-      - run: corepack enable
-      - run: yarn install --frozen-lockfile --ignore-scripts --non-interactive
+      - run: COREPACK_ENABLE_PROJECT_SPEC=0 corepack yarn install --frozen-lockfile --ignore-scripts --non-interactive
         working-directory: example
       - run: bundle exec pod install
         working-directory: example/ios
