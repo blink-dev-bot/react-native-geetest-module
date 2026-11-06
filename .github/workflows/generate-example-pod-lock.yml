@@ -7,7 +7,7 @@ on:
 
 jobs:
   lockfile:
-    runs-on: macos-15
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,10 +15,12 @@ jobs:
           node-version: 24
           cache: yarn
           cache-dependency-path: example/yarn.lock
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          working-directory: example
       - run: corepack enable
       - run: yarn install --frozen-lockfile --ignore-scripts --non-interactive
-        working-directory: example
-      - run: bundle install
         working-directory: example
       - run: bundle exec pod install
         working-directory: example/ios
