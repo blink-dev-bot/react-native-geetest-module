@@ -14,6 +14,14 @@ module.exports = mergeConfig(getDefaultConfig(__dirname), {
 
   // Load peer dependencies from the example so Metro sees only one copy.
   resolver: {
+    blockList: modules.map(
+      (name) =>
+        new RegExp(
+          `^${path
+            .join(root, "node_modules", name)
+            .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[/\\\\].*$`,
+        ),
+    ),
     extraNodeModules: modules.reduce((acc, name) => {
       acc[name] = path.join(__dirname, "node_modules", name)
       return acc
