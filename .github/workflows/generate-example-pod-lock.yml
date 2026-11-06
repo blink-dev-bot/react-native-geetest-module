@@ -20,6 +20,12 @@ jobs:
           working-directory: example
       - run: COREPACK_ENABLE_PROJECT_SPEC=0 corepack yarn install --frozen-lockfile --ignore-scripts --non-interactive
         working-directory: example
+      - name: Provide Xcode version probe for dependency resolution
+        run: |
+          mkdir -p "$RUNNER_TEMP/bin"
+          printf '#!/bin/sh\nprintf "Xcode 16.1\\nBuild version 16B40\\n"\n' > "$RUNNER_TEMP/bin/xcodebuild"
+          chmod +x "$RUNNER_TEMP/bin/xcodebuild"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
       - run: bundle exec pod install
         working-directory: example/ios
       - uses: actions/upload-artifact@v4
