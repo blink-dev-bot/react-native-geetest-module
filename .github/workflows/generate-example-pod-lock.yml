@@ -24,7 +24,8 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/bin"
           printf '#!/bin/sh\nprintf "Xcode 16.1\\nBuild version 16B40\\n"\n' > "$RUNNER_TEMP/bin/xcodebuild"
-          chmod +x "$RUNNER_TEMP/bin/xcodebuild"
+          printf '#!/bin/sh\nif [ "$1" = "-v" ]; then type -P "$2" || true; fi\n' > "$RUNNER_TEMP/bin/command"
+          chmod +x "$RUNNER_TEMP/bin/xcodebuild" "$RUNNER_TEMP/bin/command"
           echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
       - run: bundle exec pod install
         working-directory: example/ios
