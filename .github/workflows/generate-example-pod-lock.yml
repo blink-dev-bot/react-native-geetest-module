@@ -15,6 +15,7 @@ jobs:
           node-version: 24
       - uses: ruby/setup-ruby@v1
         with:
+          ruby-version: '3.3'
           bundler-cache: true
           working-directory: example
       - run: COREPACK_ENABLE_PROJECT_SPEC=0 corepack yarn install --frozen-lockfile --ignore-scripts --non-interactive
